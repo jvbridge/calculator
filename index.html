@@ -1,57 +1,37 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link href="calc.css" />
+    <link rel="stylesheet" href="calc.css" />
     <script src="./calc.js" defer></script>
   </head>
   <body>
     <h1>Calculator app</h1>
     <div class="container">
-      <input type="text" class="result" />
-      <div class="row1">
-        <input type="button" name="" value="&radic;" class="global" />
-        <input type="button" name="" value="(" class="global" />
-        <input type="button" name="" value=")" class="global" />
-        <input type="button" name="" value="%" class="global" />
+      <div class="display">
+        <div data-previous-operand class="previous-operand">123 +</div>
+        <div data-current-operand class="current-operand">456</div>
       </div>
-      <div class="row2">
-        <input type="button" name="" value="7" class="global" />
-        <input type="button" name="" value="8" class="global" />
-        <input type="button" name="" value="9" class="global" />
-        <input type="button" name="" value="/" class="global" />
+      <div class="calc-grid">
+        <button data-all-clear>AC</button> 
+        <button data-delete>DEL</button>
+        <button data-number>.</button>
+        <button data-operation>/</button>
+        <button data-number>7</button>
+        <button data-number>8</button>
+        <button data-number>9</button>
+        <button data-operation>*</button>
+        <button data-number>4</button>
+        <button data-number>5</button>
+        <button data-number>6</button>
+        <button data-operation>+</button>
+        <button data-number>1</button>
+        <button data-number>2</button>
+        <button data-number>3</button>
+        <button data-operation>-</button>
+        <button data-number>0</button>
+        <button data-equals>=</button>
+        <!-- TODO memory buttons-->
       </div>
-      <div class="row3">
-        <input type="button" name="" value="4" class="global" />
-        <input type="button" name="" value="5" class="global" />
-        <input type="button" name="" value="6" class="global" />
-        <input type="button" name="" value="X" class="global" />
-      </div>
-      <div class="row4">
-        <input type="button" name="" value="1" class="global" />
-        <input type="button" name="" value="2" class="global" />
-        <input type="button" name="" value="3" class="global" />
-        <input type="button" name="" value="-" class="global" />
-      </div>
-      <div class="conflict">
-        <div class="left">
-          <input type="button" name="" value="0" class="big" />
-          <input type="button" name="" value="." class="small" />
-          <input
-            type="button"
-            name=""
-            value="Del"
-            class="red small white-text top-margin"
-          />
-          <input
-            type="button"
-            name=""
-            value="="
-            class="green white-text big top-margin"
-          />
-        </div>
-        <div class="right">
-          <input type="button" name="" value="+" class="global grey plus" />
-        </div>
       </div>
     </div>
   </body>
