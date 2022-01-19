@@ -23,36 +23,76 @@ numberButtons.forEach((button) => {
 });
 
 // make listeners for the operators
+operationButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    calculator.chooseOperation(button.innerText);
+    calculator.updateDisplay();
+  });
+});
 
-/**
- * Main Class for the calculator
- */
+// listener for the equals button
+equalsButton.addEventListener("click", (button) => {
+  calculator.compute();
+  calculator.updateDisplay();
+});
+
+//
 class Calculator {
-  // sets up the elements we need to update and remember
+  /**
+   * Sets up references for the display elements
+   */
   constructor(previousOperandTextElement, currentOperandTextElement) {
     this.currOpElement = currentOperandTextElement;
     this.prevOpElement = previousOperandTextElement;
     this.clear();
   }
 
+  /**
+   * Sets the inner values to empty, will cause display to be empty
+   */
   clear() {
     this.currOp = "";
     this.prevOp = "";
     this.operation = undefined;
   }
 
+  /**
+   * Removes current value from display buffer
+   */
   delete() {}
 
+  /**
+   * Appends current number pressed to display string
+   * @param {String} num number to append
+   * @returns void
+   */
   appendNumber(num) {
     if (num === "." && this.currOp.includes(".")) return;
     this.currOp = this.currOp.toString() + num.toString();
     calculator.updateDisplay();
   }
 
-  choose(operation) {}
+  /**
+   * Executes when you click +, -, / and * will set the current p[eratopm]
+   * @param {String} operand The operation to execute
+   * @returns void
+   */
+  chooseOperation(operand) {
+    if (this.currOp === "") return;
+    if (this.prevOp !== "") this.compute();
+    this.operation = operand;
+    this.prevOp = this.currOp;
+    this.currOp = "";
+  }
+  /**
+   * Evaluates the current variables in the calculator
+   */
+  compute() {}
 
-  eval() {}
-
+  /**
+   * Updates the display to reflect the current state of the calc object
+   * variables
+   */
   updateDisplay() {
     this.currOpElement.innerText = this.getDisplayNumber(this.currOp);
     if (this.operation != null) {
