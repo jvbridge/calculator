@@ -31,12 +31,22 @@ operationButtons.forEach((button) => {
 });
 
 // listener for the equals button
-equalsButton.addEventListener("click", (button) => {
+equalsButton.addEventListener("click", () => {
   calculator.compute();
   calculator.updateDisplay();
 });
 
-//
+// listener for the "Del" button
+deleteButton.addEventListener("click", () => {
+  calculator.delete();
+  calculator.updateDisplay();
+});
+
+allClearButton.addEventListener("click", () => {
+  calculator.clear();
+  calculator.updateDisplay();
+});
+
 class Calculator {
   /**
    * Sets up references for the display elements
@@ -57,9 +67,11 @@ class Calculator {
   }
 
   /**
-   * Removes current value from display buffer
+   * Removes the las character of the current operation string
    */
-  delete() {}
+  delete() {
+    this.currOp = this.currOp.toString().slice(0, -1);
+  }
 
   /**
    * Appends current number pressed to display string
@@ -90,6 +102,7 @@ class Calculator {
    */
   compute() {
     let ret; // returning value
+    // get strings of values, make them floats, do the operations
     const prev = parseFloat(this.prevOp);
     const curr = parseFloat(this.currOp);
     if (isNaN(prev) || isNaN(curr)) return;
@@ -110,6 +123,7 @@ class Calculator {
         console.log("error: hit end of compute switch");
         return;
     }
+    // set the current value equal to the computed value, and clear the rest
     this.currOp = ret;
     this.operation = undefined;
     this.prevOp = "";
@@ -129,13 +143,32 @@ class Calculator {
       this.prevOpElement.innerText = "";
     }
   }
+  /**
+   *
+   * @param {*} number
+   * @returns
+   */
   getDisplayNumber(number) {
-    const floatNumber = parseFloat(number);
-    if (isNaN(floatNumber)) return "";
-    return floatNumber.toLocaleString("en");
+    const stringNumber = number.toString();
+    const integerDigits = parseFloat(stringNumber.split(".")[0]);
+    const decimalDigits = stringNumber.split(".")[1];
+    let integerDisplay;
+    if (isNaN(integerDigits)) {
+      integerDisplay = "";
+    } else {
+      integerDisplay = integerDigits.toLocaleString("en", {
+        maximumFractionDigits: 0,
+      });
+    }
+    if (decimalDigits != null) {
+      return `${integerDisplay}.${decimalDigits}`;
+    } else {
+      return integerDisplay;
+    }
   }
 }
 
+// enough has been defined to set up the calculator
 const calculator = new Calculator(
   previousOperandTextElement,
   currentOperandTextElement
