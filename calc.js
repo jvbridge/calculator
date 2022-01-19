@@ -86,8 +86,34 @@ class Calculator {
   }
   /**
    * Evaluates the current variables in the calculator
+   * @returns Float
    */
-  compute() {}
+  compute() {
+    let ret; // returning value
+    const prev = parseFloat(this.prevOp);
+    const curr = parseFloat(this.currOp);
+    if (isNaN(prev) || isNaN(curr)) return;
+    switch (this.operation) {
+      case "+":
+        ret = prev + curr;
+        break;
+      case "-":
+        ret = prev - curr;
+        break;
+      case "*":
+        ret = prev * curr;
+        break;
+      case "/":
+        ret = prev / curr;
+        break;
+      default:
+        console.log("error: hit end of compute switch");
+        return;
+    }
+    this.currOp = ret;
+    this.operation = undefined;
+    this.prevOp = "";
+  }
 
   /**
    * Updates the display to reflect the current state of the calc object
