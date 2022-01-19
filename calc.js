@@ -19,9 +19,10 @@ const currentOperandTextElement = document.querySelector(
 numberButtons.forEach((button) => {
   button.addEventListener("click", () => {
     calculator.appendNumber(button.innerText);
-    calculator.updateDisplay();
   });
 });
+
+// make listeners for the operators
 
 /**
  * Main Class for the calculator
@@ -41,9 +42,17 @@ class Calculator {
   }
 
   delete() {}
-  appendNumber(num) {}
+
+  appendNumber(num) {
+    if (num === "." && this.currOp.includes(".")) return;
+    this.currOp = this.currOp.toString() + num.toString();
+    calculator.updateDisplay();
+  }
+
   choose(operation) {}
+
   eval() {}
+
   updateDisplay() {
     this.currOpElement.innerText = this.getDisplayNumber(this.currOp);
     if (this.operation != null) {
