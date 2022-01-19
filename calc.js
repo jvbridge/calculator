@@ -15,6 +15,12 @@ const currentOperandTextElement = document.querySelector(
   "[data-current-operand]"
 );
 
+// getting references for memory buttons
+const memoryPlus = document.querySelector("[data-memory-plus]");
+const memoryRecall = document.querySelector("[data-memory-recall]");
+const memoryClear = document.querySelector("[data-memory-clear]");
+const memoryMinus = document.querySelector("[data-memory-minus]");
+
 // make listeners for all the number buttons
 numberButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -42,11 +48,28 @@ deleteButton.addEventListener("click", () => {
   calculator.updateDisplay();
 });
 
+// listener for the "AC" button
 allClearButton.addEventListener("click", () => {
   calculator.clear();
   calculator.updateDisplay();
 });
 
+// Memory button listeners
+memoryPlus.addEventListener("click", () => {
+  calculator.addMemory();
+});
+
+memoryRecall.addEventListener("click", () => {
+  calculator.recallMemory();
+});
+
+memoryClear.addEventListener("click", () => {
+  calculator.clearMemory();
+});
+
+memoryMinus.addEventListener("click", () => {
+  calculator.subMemory();
+});
 class Calculator {
   /**
    * Sets up references for the display elements
@@ -58,12 +81,37 @@ class Calculator {
   }
 
   /**
+   * Variable for memory
+   */
+  Memory = 0.0;
+
+  clearMemory() {
+    this.Memory = 0.0;
+  }
+
+  addMemory() {
+    let tmp = this.Memory;
+    this.Memory = tmp + parseFloat(this.currOp);
+  }
+
+  subMemory() {
+    let tmp = this.Memory;
+    this.Memory = tmp - parseFloat(this.currOp);
+  }
+
+  recallMemory() {
+    this.currOp = this.Memory.toString();
+    this.updateDisplay();
+  }
+
+  /**
    * Sets the inner values to empty, will cause display to be empty
    */
   clear() {
     this.currOp = "";
     this.prevOp = "";
     this.operation = undefined;
+    this.clearMemory();
   }
 
   /**
