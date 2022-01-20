@@ -70,6 +70,53 @@ memoryClear.addEventListener("click", () => {
 memoryMinus.addEventListener("click", () => {
   calculator.subMemory();
 });
+
+// set up event listener for key presses lets us use the numpad and regular keys
+document.addEventListener("keydown", (event) => {
+  // test if it's a number, uses a regular expression
+  let numberPattern = /[0-9]/g;
+  // same thing for operators
+  let opPattern = /[+\-*\/]/g;
+
+  // check if we have have a number or decimal
+  if (event.key.match(numberPattern) || event.key === ".") {
+    event.preventDefault();
+    calculator.appendNumber(event.key);
+    calculator.updateDisplay();
+    return;
+  }
+
+  // check if we have an operator
+  if (event.key.match(opPattern)) {
+    event.preventDefault();
+    calculator.chooseOperation(event.key);
+    calculator.updateDisplay();
+    return;
+  }
+
+  // check if we are asking for enter
+  if (event.key === "Enter" || event.key === "=") {
+    event.preventDefault();
+    calculator.compute();
+    calculator.updateDisplay();
+    return;
+  }
+
+  // backspace just deletes one character
+  if (event.key === "Backspace") {
+    event.preventDefault();
+    calculator.delete();
+    calculator.updateDisplay();
+    return;
+  }
+
+  // delete clears the whole thing
+  if (event.key == "Delete") {
+    calculator.clear();
+    calculator.updateDisplay();
+  }
+});
+
 class Calculator {
   /**
    * Sets up references for the display elements
@@ -85,18 +132,28 @@ class Calculator {
    */
   Memory = 0.0;
 
+  // memory operations
+  /**
+   * clears the memory function of the calculator
+   */
   clearMemory() {
     this.Memory = 0.0;
   }
 
+  /**
+   * Adds the current value to the memory variable
+   */
   addMemory() {
     let tmp = this.Memory;
     this.Memory = tmp + parseFloat(this.currOp);
   }
 
+  /**
+   * subtracts current value from the memory
+   */
   subMemory() {
     let tmp = this.Memory;
-    this.Memory = tmp - parseFloat(this.currOp);
+    this.Memory = tmp - this.getDisplayNumber(this.currOp);
   }
 
   recallMemory() {
@@ -192,9 +249,9 @@ class Calculator {
     }
   }
   /**
-   *
-   * @param {*} number
-   * @returns
+   * Helper function for updating the display
+   * @param {Float} Number to display
+   * @returns a string to display, properly formatted
    */
   getDisplayNumber(number) {
     const stringNumber = number.toString();
